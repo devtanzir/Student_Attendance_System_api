@@ -7,7 +7,23 @@ export const findUserByProperty = (key, value) => {
   return User.findOne({ [key]: value });
 };
 
-export const createNewUser = ({ name, email, password }) => {
-  const user = new User({ name, email, password });
+export const findUsers = () => {
+  return User.find();
+};
+
+export const createNewUser = ({
+  name,
+  email,
+  password,
+  roles,
+  AccountStatus,
+}) => {
+  const user = new User({
+    name,
+    email,
+    password,
+    roles: roles ? roles : ["STUDENT"],
+    AccountStatus: AccountStatus ? AccountStatus : "PENDING",
+  });
   return user.save();
 };
