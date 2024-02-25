@@ -8,8 +8,8 @@ dotenv.config({
 
 const app = Express();
 
-app.use(router);
 app.use(Express.json());
+app.use(router);
 app.use((err, _req, res, _next) => {
   console.log(err);
   const message = err.message ? err.message : "server error Occurred";
