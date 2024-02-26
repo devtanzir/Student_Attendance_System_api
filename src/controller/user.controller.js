@@ -1,10 +1,14 @@
-import { registerService } from "../service/Auth_Service.js";
-import { findUserByProperty, findUsers } from "../service/User_Service.js";
-import error from "../utils/error.utils.js";
+import {
+  deleteService,
+  getUserService,
+  getUsersService,
+  registerService,
+  updateService,
+} from "../service/Auth_Service.js";
 
 export const getAllUsers = async (_req, res, next) => {
   try {
-    const users = await findUsers();
+    const users = await getUsersService();
     return res.status(200).json(users);
   } catch (e) {
     next(e);
@@ -33,15 +37,7 @@ export const patchUserById = async (req, res, next) => {
   const { name, roles, AccountStatus } = req.body;
 
   try {
-    const user = await findUserByProperty("_id", userId);
-
-    if (!user) throw error("user not found", 404);
-
-    user.name = name ?? user.name;
-    user.roles = roles ?? user.roles;
-    user.AccountStatus = AccountStatus ?? user.AccountStatus;
-
-    await user.save();
+    const user = await updateService({ userId, name, roles, AccountStatus });
     return res.status(200).json(user);
   } catch (e) {
     next(e);
@@ -52,9 +48,7 @@ export const getUserById = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const user = await findUserByProperty("_id", userId);
-
-    if (!user) throw error("user not found", 404);
+    const user = await getUserService({ userId });
     return res.status(200).json(user);
   } catch (e) {
     next(e);
@@ -65,10 +59,7 @@ export const deleteUserById = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const user = await findUserByProperty("_id", userId);
-
-    if (!user) throw error("user not found", 404);
-    await user.deleteOne(user);
+    deleteService({ userId });
     return res.status(203).send();
   } catch (e) {
     next(e);

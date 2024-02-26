@@ -1,7 +1,11 @@
 import error from "../utils/error.utils.js";
 import bcrypt, { compare, genSalt } from "bcrypt";
 import Jwt from "jsonwebtoken";
-import { createNewUser, findUserByProperty } from "./User_Service.js";
+import {
+  createNewUser,
+  findUserByProperty,
+  findUsers,
+} from "./User_Service.js";
 
 export const registerService = async ({
   name,
@@ -37,4 +41,35 @@ export const loginService = async ({ email, password }) => {
   };
   delete user._doc.password;
   return Jwt.sign(payload, "my-secret-key", { expiresIn: "2h" });
+};
+
+export const getUsersService = async () => {
+  return await findUsers();
+};
+
+export const updateService = async ({ userId, name, roles, AccountStatus }) => {
+  const user = await findUserByProperty("_id", userId);
+
+  if (!user) throw error("user not found", 404);
+
+  user.name = name ?? user.name;
+  user.roles = roles ?? user.roles;
+  user.AccountStatus = AccountStatus ?? user.AccountStatus;
+
+  return await user.save();
+};
+
+export const getUserService = async ({ userId }) => {
+  const user = await findUserByProperty("_id", userId);
+
+  if (!user) throw error("user not found", 404);
+
+  return user;
+};
+
+export const deleteService = async ({ userId }) => {
+  const user = await findUserByProperty("_id", userId);
+
+  if (!user) throw error("user not found", 404);
+  return await user.deleteOne(user);
 };
