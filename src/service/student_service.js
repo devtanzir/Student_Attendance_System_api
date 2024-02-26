@@ -5,17 +5,17 @@ export const studentFindByIdService = (id) => {
   return adminAttendance.findById(id);
 };
 
-export const studentAttendanceFindOne = ({ id, userId }) => {
-  return studentAttendance.findOne({
-    adminAttendance: id,
-    user: userId,
-  });
-};
+// export const studentAttendanceFindOne = ({ id, userId }) => {
+//   return studentAttendance.findOne({
+//     adminAttendance: id,
+//     user: userId,
+//   });
+// };
 
-export const getAttendanceService = ({ id, userId }) => {
-  const stdAttendance = new studentAttendance({
-    adminAttendance: id,
-    user: userId,
-  });
-  return stdAttendance.save();
-};
+// export const getAttendanceService = ({ id, userId }) => {
+//   const stdAttendance = new studentAttendance({
+//     adminAttendance: id,
+//     user: userId,
+//   });
+//   return stdAttendance.save();
+// };
