@@ -1,10 +1,10 @@
+import { registerService } from "../service/Auth_Service.js";
 import {
   deleteService,
   getUserService,
   getUsersService,
-  registerService,
   updateService,
-} from "../service/Auth_Service.js";
+} from "../service/user_crud_service.js";
 
 export const getAllUsers = async (_req, res, next) => {
   try {

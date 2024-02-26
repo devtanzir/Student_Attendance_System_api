@@ -4,6 +4,6 @@ import { getAttendance, getStatus } from "../controller/student.controller.js";
 const router = Router();
 
 router.get("/status", getStatus);
-router.get("/:userId", getAttendance);
+router.get("/:attendanceId", getAttendance);
 
 export default router;
